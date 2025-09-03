@@ -1,7 +1,10 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import eslint from "vite-plugin-eslint";
+
+import type { UserConfig } from "vite";
 
 export default defineConfig({
   plugins: [
@@ -13,14 +16,20 @@ export default defineConfig({
       lintOnStart: true,
     }),
   ],
+  test: {
+    globals: true,
+    environment: "jsdom",
+  },
 
+  base: process.env.NODE_ENV === "production" ? "/1.1.17/" : "/",
   server: {
     port: 3000,
     open: true,
   },
 
   build: {
-    outDir: "build",
+    outDir: "dist",
+    sourcemap: false,
   },
 
   resolve: {
@@ -45,4 +54,4 @@ export default defineConfig({
       },
     },
   },
-});
+} as UserConfig);
